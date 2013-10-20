@@ -1,0 +1,8 @@
+base   toolbuttondel 
+author  Myron Turner
+email  turnermm02@shaw.ca
+date  2013-10-20
+name  toolbuttondel
+desc  deletes toolbar buttons selected from config manager
+url  https://www.dokuwiki.org/plugin:toolbuttondel
+

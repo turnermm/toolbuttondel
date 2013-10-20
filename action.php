@@ -1,4 +1,9 @@
 <?php
+/**
+*    @name action plugin toolbuttondel
+*    @description deletes toolbar buttons selected from configuration manager
+*    @author Myron Turner <turnermm02@shaw.ca>
+*/
 if (!defined('DOKU_INC')) die();
 class action_plugin_toolbuttondel extends DokuWiki_Action_Plugin {  
     private $select_head = array();
