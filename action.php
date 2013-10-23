@@ -17,9 +17,10 @@ class action_plugin_toolbuttondel extends DokuWiki_Action_Plugin {
 
     function delete_buttons(& $event, $param) {       
        $this->parse_options();   
-        $this->select_headers($event);
+       $this->formats($event);
+       $this->select_headers($event);
        $this->pickers($event);
-        $this->formats($event);
+        
     }
  
 function parse_options() {
@@ -110,13 +111,6 @@ function formats(& $event) {
        }   
 
        $event->data = $tmp;
-        for($i=0; $i<count($event->data); $i++) {   
-            if($ckeys && preg_match('/'. $ckeys .'/' ,$event->data[$i]['key'])) {
-             unset($event->data[$i]);
-          }
-          
-       }       
-     
       
 }
  
