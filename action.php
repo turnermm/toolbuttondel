@@ -16,14 +16,14 @@ class action_plugin_toolbuttondel extends DokuWiki_Action_Plugin {
 
 
     function delete_buttons(& $event, $param) {       
-       $this->parse_options();   
+       $this->parse_options($select_picker);   
        $this->formats($event);
-       $this->select_headers($event);
+       $this->select_headers($event,$select_picker);
        $this->pickers($event);
         
     }
  
-function parse_options() {
+function parse_options(&$select_picker = false) {
     $auto_headers = array('same'=>'8','higher'=>'0','lower'=>'9');
     $key_codes = array(
        'bold' =>'b',
@@ -54,7 +54,9 @@ function parse_options() {
     $this->key_type_chars = array_merge($this->key_type_chars,$autohead);
     
     if(!$headers) return;  
-    
+    if(in_array('select',$headers)) {
+       $select_picker = true;
+    }
     for($i=0; $i<=5; $i++) {
        if(in_array($i,$headers)) {
            $this->select_head[] = $i;
@@ -114,10 +116,13 @@ function formats(& $event) {
       
 }
  
- function select_headers(& $event) {
+ function select_headers(& $event,$select=false) {
     for($i=0; $i<count($event->data); $i++) {   
         if(array_key_exists('class', $event->data[$i]) && $event->data[$i]['class'] == 'pk_hl') {         
-            $this->check_selheader_keys($event->data[$i]['list']);
+              if($select) {
+                   unset($event->data[$i]);  
+                 }
+              else $this->check_selheader_keys($event->data[$i]['list']);
             break;
         }
    }
