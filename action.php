@@ -10,7 +10,7 @@ class action_plugin_toolbuttondel extends DokuWiki_Action_Plugin {
     private $key_type_chars  = array();  // will be merged with autoheads
     private $misc_icons = array();
     
-    function register(&$controller) {     
+    function register(Doku_Event_Handler $controller) {     
         $controller->register_hook('TOOLBAR_DEFINE', 'AFTER', $this, 'delete_buttons', array ());
     }
 
