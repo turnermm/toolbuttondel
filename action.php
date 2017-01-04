@@ -20,7 +20,32 @@ class action_plugin_toolbuttondel extends DokuWiki_Action_Plugin {
        $this->formats($event);
        $this->select_headers($event,$select_picker);
        $this->pickers($event);
+       $this->links($event);
+    }
         
+ function links(& $event) {
+     $which= $this->getConf('links');
+     $excludes = explode(',',$which);
+     for($i=0; $i<count($event->data); $i++) {
+           switch ($event->data[$i]['type'])
+           {
+                 case 'format':    
+                     if(!in_array ('external' , $excludes)) break;                
+                     if(isset($event->data[$i]['open']) && $event->data[$i]['open']=='[[')
+                         unset($event->data[$i]);  
+                         break;
+               case 'linkwiz':
+                     if(!in_array ('internal' , $excludes)) break;                
+                         unset($event->data[$i]);
+                         break;
+               case 'mediapopup':  
+                     if(!in_array ('media' , $excludes)) break;                               
+                     if(strpos($event->data[$i]['url'],'mediamanager') !== false) {
+                         unset($event->data[$i]);
+                   }
+                   break;
+           }
+     }
     }
  
 function parse_options(&$select_picker = false) {
