@@ -6,4 +6,3 @@ $lang['misc_other'] = 'Unused; you must select from checkboxes';
 $lang['headers'] = 'Headlines: lower, higher and same are the auto-heading selectors;  1-5 are the five levels in the heading selection menu; select is the entire selection menu.';
 $lang['headers_other'] = 'Unused; you must select from checkboxes';
 $lang['links'] = 'Link types: media (mediamanager), internal links (linkwiz), external links';
-$lang['links'] = 'Link types: media (mediamanager), internal links (linkwiz), external links';
