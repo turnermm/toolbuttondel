@@ -12,9 +12,29 @@ class action_plugin_toolbuttondel extends DokuWiki_Action_Plugin {
     
     function register(Doku_Event_Handler $controller) {     
         $controller->register_hook('TOOLBAR_DEFINE', 'AFTER', $this, 'delete_buttons', array ());
+        $controller->register_hook('DOKUWIKI_STARTED', 'BEFORE', $this, '_started', array ());  
     }
 
-
+    function _started (& $event, $param) {  
+         global $conf,$INPUT;     
+         if(!$this->getConf('users_only')) return;         
+         $meta_file = metaFN('toolbuttondel:current_editor');
+         $which =  io_readFile($meta_file);
+         $touch = true;
+         if($INPUT->server->has('REMOTE_USER')) {
+             if($which == 'user') $touch = false;
+         }  
+         else if($which == 'visitor') $touch = false;   
+          if($touch) {
+             $confdir =  preg_replace("/data\/pages/",'conf/', $conf['datadir']);      
+             touch($confdir.'local.php');
+          }         
+         if($INPUT->server->has('REMOTE_USER')) {
+              $which = 'user';
+         }
+         else $which = 'visitor';         
+         io_saveFile($meta_file, $which);
+    }
     function delete_buttons(& $event, $param) {       
        $this->parse_options($select_picker);   
        $this->formats($event);
@@ -24,6 +44,12 @@ class action_plugin_toolbuttondel extends DokuWiki_Action_Plugin {
     }
         
  function links(& $event) {
+     if(isset($_COOKIE[DOKU_COOKIE])  && $this->getConf('users_only')) {
+         list($a,$b,$c) =  explode('|', $_COOKIE[DOKU_COOKIE], 3);     
+         if(isset($a)) {          
+             return; 
+        } 
+     }
      $which= $this->getConf('links');
      $excludes = explode(',',$which);
      for($i=0; $i<count($event->data); $i++) {
