@@ -15,6 +15,11 @@ class action_plugin_toolbuttondel extends DokuWiki_Action_Plugin {
         $controller->register_hook('DOKUWIKI_STARTED', 'BEFORE', $this, '_started', array ());  
     }
 
+     /*
+     *   Invalidate cache for logged in users, otherwise they get same toolbar as non-users
+     *   After invalidating, when next non-user accesses the toolbar, the toolbar is recreated 
+     *  in its default settings, which is for non-users
+     */
     function _started (& $event, $param) {  
          global $conf,$INPUT;     
          if(!$this->getConf('users_only')) return;         
