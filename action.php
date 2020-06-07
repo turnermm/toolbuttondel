@@ -23,7 +23,7 @@ class action_plugin_toolbuttondel extends DokuWiki_Action_Plugin {
     function _started (& $event, $param) {  
          global $conf,$INPUT;     
          if(!$this->getConf('users_only')) return;         
-         $meta_file = metaFN('toolbuttondel:current_editor');
+         $meta_file = metaFN('toolbuttondel:current_editor','meta');
          $which =  io_readFile($meta_file);
          $touch = true;
          if($INPUT->server->has('REMOTE_USER')) {
